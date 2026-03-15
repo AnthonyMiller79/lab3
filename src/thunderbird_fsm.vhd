@@ -117,19 +117,19 @@ N <= "01000000" when (B= "10000000" and i_left='1' and i_right='1') else
      "10000000";
 	-----------------------------------------------------					   
 o_lights_L <= 
-        "111" when B="01000000" else
+        "000" when B=("10000000" or "00100000" or "00010000" or "00001000") else
         "001" when B="00000100" else
         "011" when B="00000010" else
         "111" when B="00000001" else
-        "000";
+        "111";
 
 
 o_lights_R <=
-        "111" when B="01000000" else
+        "000" when B=("10000000" or "00000100" or "00000010" or "00000001") else
         "100" when B="00100000" else
         "110" when B="00010000" else
         "111" when B="00001000" else
-        "000";
+        "111";
         
 register_proc : process (i_clk, i_reset)
 begin
