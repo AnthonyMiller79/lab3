@@ -100,16 +100,20 @@ architecture thunderbird_fsm_arch of thunderbird_fsm is
 -- CONSTANTS ------------------------------------------------------------------
   signal B : std_logic_vector(7 downto 0);
   signal N : std_logic_vector (7 downto 0);
-  signal B_nxt : std_logic_vector(7 downto 0);
 begin
 N <= "01000000" when (B= "10000000" and i_left='1' and i_right='1') else
      "00100000" when (B= "10000000" and i_right='1' and i_left='0') else
      "00000100" when (B= "10000000" and i_left='1' and i_right='0')else
+     --r
      "00010000" when (B= "00100000") else
      "00001000" when (B= "00010000") else
      "10000000" when (B= "00001000") else
+     --l
      "00000010" when (B= "00000100") else
      "00000001" when (B= "00000010") else
+     "10000000" when (B= "00000001") else
+     --h
+     "01000000" when (B= "01000000") else
      "10000000";
 	-----------------------------------------------------					   
 o_lights_L <= 
@@ -119,12 +123,12 @@ o_lights_L <=
         "111" when B="00000001" else
         "000";
 
-B_nxt <= N;
+
 o_lights_R <=
-        "111" when B_nxt="01000000" else
-        "100" when B_nxt="00100000" else
-        "110" when B_nxt="00010000" else
-        "111" when B_nxt="00001000" else
+        "111" when B="01000000" else
+        "100" when B="00100000" else
+        "110" when B="00010000" else
+        "111" when B="00001000" else
         "000";
         
 register_proc : process (i_clk, i_reset)
