@@ -1,4 +1,4 @@
---+---------------------------------------------------------------------------
+--+--------------------------------------------------------------------------
 --| 
 --| COPYRIGHT 2018 United States Air Force Academy All rights reserved.
 --| 
@@ -109,7 +109,7 @@ begin
 
 	-- PORT MAPS ----------------------------------------
 		clkdiv_inst : clock_divider 		--instantiation of clock_divider to take 
-        generic map ( k_DIV => 50000000 ) -- 1 Hz clock from 100 MHz
+        generic map ( k_DIV => 12500000 ) -- 1 Hz clock from 100 MHz
         port map (						  
             i_clk   => clk,
             i_reset => btnL,
