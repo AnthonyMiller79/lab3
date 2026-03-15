@@ -125,7 +125,7 @@ o_lights_L <=
 
 o_lights_R <=
         "111" when B="01000000" else
-        "100" when B="00100000" else
+        "100" when (B="00100000" or (B="10000000" and i_right='1' and i_left='1')) else
         "110" when B="00010000" else
         "111" when B="00001000" else
         "000";
