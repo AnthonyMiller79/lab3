@@ -103,8 +103,8 @@ architecture thunderbird_fsm_arch of thunderbird_fsm is
 begin
 N <= "10000000" when (B = "01000000") else
      "01000000" when (B= "10000000" and i_left='1' and i_right='1') else
-     "00000100" when (B= "10000000" and i_left='1' and i_right='0')else
      "00100000" when (B= "10000000" and i_right='1' and i_left='0') else
+     "00000100" when (B= "10000000" and i_left='1' and i_right='0')else
      "00010000" when (B= "00100000") else
      "00001000" when (B= "00010000") else
      "10000000" when (B= "00001000") else
