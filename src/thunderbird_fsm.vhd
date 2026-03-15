@@ -85,24 +85,52 @@ library ieee;
   use ieee.std_logic_1164.all;
   use ieee.numeric_std.all;
  
-entity thunderbird_fsm is 
---  port(
-	
---  );
+entity thunderbird_fsm is
+    port (
+        i_clk, i_reset  : in    std_logic;
+        i_left, i_right : in    std_logic;
+        o_lights_L      : out   std_logic_vector(2 downto 0);
+        o_lights_R      : out   std_logic_vector(2 downto 0)
+        
+    );
 end thunderbird_fsm;
 
 architecture thunderbird_fsm_arch of thunderbird_fsm is 
 
 -- CONSTANTS ------------------------------------------------------------------
-  
+  signal B : std_logic_vector(7 downto 0);
+  signal N : std_logic_vector (7 downto 0);
 begin
-
-	-- CONCURRENT STATEMENTS --------------------------------------------------------	
-	
-    ---------------------------------------------------------------------------------
-	
-	-- PROCESSES --------------------------------------------------------------------
-    
+N <= "10000000" when (B = "01000000") else
+     "01000000" when (B= "10000000" and i_left='1' and i_right='1') else
+     "00100000" when (B= "10000000" and i_right='1' and i_left='0') else
+     "00010000" when (B= "00100000") else
+     "00001000" when (B= "00010000") else
+     "10000000" when (B= "00001000") else
+     "00000100" when (B= "10000000" and i_left='1' and i_right='0') else
+     "00000010" when (B= "00000100") else
+     "00000001" when (B= "00000010") else
+     "10000000";
 	-----------------------------------------------------					   
-				  
+o_lights_L <= 
+        "111" when B="01000000" else
+        "001" when B="00000100" else
+        "011" when B="00000010" else
+        "111" when B="00000001" else
+        "000";
+o_lights_R <=
+        "111" when B="01000000" else
+        "100" when B="00100000" else
+        "110" when B="00010000" else
+        "111" when B="00001000" else
+        "000";
+        
+register_proc : process (i_clk, i_reset)
+begin
+    if i_reset = '1' then
+        B <= "10000000";        -- reset state is yellow
+    elsif (rising_edge(i_clk)) then
+        B <= N;    -- next state becomes current state
+    end if;
+end process register_proc;
 end thunderbird_fsm_arch;
